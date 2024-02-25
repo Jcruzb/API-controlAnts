@@ -27,7 +27,7 @@ const productRoutes = require('./routes/product.routes')
 app.use('/products', productRoutes)
 const expenseRoutes = require('./routes/expense.routes')
 app.use('/expenses', expenseRoutes)
-const pricehistoryRoutes = require('./routes/pricehistory.routes')
+const pricehistoryRoutes = require('./routes/priceHistory.routes')
 const storeRoutes = require('./routes/store.routes')
 app.use('/stores', storeRoutes)
 
