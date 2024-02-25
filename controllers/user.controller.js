@@ -49,7 +49,19 @@ module.exports.deleteUser = (req, res, next) => {
 module.exports.activate = (req, res, next) => {
     User.findByIdAndUpdate(req.params.id, { active: true })
       .then(() => {
-        res.redirect(`${process.env.APP_FRONTEND}/`);
+        res.redirect(`${process.env.APP_FRONTEND}/login`);
+      })
+      .catch(next);
+  };
+
+  module.exports.me = (req, res, next) => {
+    User.findById(req.currentUser)
+      .then((user) => {
+        if (!user) {
+          next(createHttpError(StatusCodes.NOT_FOUND, "User not found"));
+        } else {
+          res.json(user);
+        }
       })
       .catch(next);
   };
