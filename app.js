@@ -21,6 +21,15 @@ app.get('/', (req, res) => {
 //rutas
 const userRoutes = require('./routes/user.routes')
 app.use('/users', userRoutes)
+const categoryRoutes = require('./routes/category.routes')
+app.use('/categories', categoryRoutes)
+const productRoutes = require('./routes/product.routes')
+app.use('/products', productRoutes)
+const expenseRoutes = require('./routes/expense.routes')
+app.use('/expenses', expenseRoutes)
+const pricehistoryRoutes = require('./routes/pricehistory.routes')
+const storeRoutes = require('./routes/store.routes')
+app.use('/stores', storeRoutes)
 
 app.use((errors, req, res, next) => {
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send({ error: errors.message })
