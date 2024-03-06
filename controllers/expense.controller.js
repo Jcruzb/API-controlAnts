@@ -17,6 +17,18 @@ module.exports.getExpenses = (req, res, next) => {
         })
         .catch(next);
 }
+module.exports.getExpense = (req, res, next) => {
+    const { id } = req.params;
+    Expense.findById(id)
+        .then(expense => {
+            if (!expense) {
+                return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
+            }
+            res.status(HttpStatus.StatusCodes.OK).json(expense);
+        })
+        .catch(next);
+}
+
 
 module.exports.editExpense = (req, res, next) => {
     const editError = createError(HttpStatus.StatusCodes.CONFLICT, 'error al editar el gasto');

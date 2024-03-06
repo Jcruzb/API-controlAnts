@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const KIND = [ 'fijo', 'variable', 'extra' ];
+
 const expenseSchema = new Schema({
     name: {
         type: String,
@@ -13,6 +15,15 @@ const expenseSchema = new Schema({
     date: {
         type: Date,
         required: true
+    },
+    kind: {
+        type: String,
+        enum: KIND,
+        required: true
+    },
+    product: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
     },
     category: {
         type: Schema.Types.ObjectId,

@@ -10,6 +10,9 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Category'
     },
+    description: {
+        type: String
+    },
    priceHistory: {
        type: Array,
        default: [
