@@ -30,6 +30,8 @@ app.use('/expenses', expenseRoutes)
 const pricehistoryRoutes = require('./routes/priceHistory.routes')
 const storeRoutes = require('./routes/store.routes')
 app.use('/stores', storeRoutes)
+const debtRoutes = require('./routes/debt.routes')
+app.use('/debts', debtRoutes)
 
 app.use((errors, req, res, next) => {
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send({ error: errors.message })
