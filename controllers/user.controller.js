@@ -65,6 +65,16 @@ module.exports.activate = (req, res, next) => {
       })
       .catch(next);
   };
+
+  //get just the name and the email
+
+    module.exports.getUsersNameAndEmail = (req, res, next) => {
+        User.find({}, {name: 1, email: 1})
+            .then(users => {
+                res.status(HttpStatus.StatusCodes.OK).json(users);
+            })
+            .catch(next);
+    }
   
 
 
