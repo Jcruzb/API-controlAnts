@@ -46,3 +46,5 @@ const debtSchema = new Schema({
         }
     }
 });
+
+module.exports = mongoose.model('Debt', debtSchema);

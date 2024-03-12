@@ -1,21 +1,25 @@
-const Debt = require('../models/Debt.model');
+const Debt = require('../models/Debt.model')
 const HttpStatus = require('http-status-codes');
 const createError = require('http-errors');
 
 module.exports.createDebt = (req, res, next) => {
+    console.log(req.body);
     Debt.create(req.body)
         .then(debt => {
-            res.status(HttpStatus.StatusCodes.CREATED).json(debt);
+            console.log(debt),            res.status(HttpStatus.StatusCodes.CREATED).json(debt);
         })
         .catch(next);
 }
 
 module.exports.getDebts = (req, res, next) => {
     Debt.find()
-        .then(debts => {
-            res.status(HttpStatus.StatusCodes.OK).json(debts);
+        .then(debts => {            res.status(HttpStatus.StatusCodes.OK).json(debts);
         })
-        .catch(next);
+        .catch(err => {
+            console.log('Error', err);
+            next(err);
+        });
+
 }
 
 module.exports.getDebt = (req, res, next) => {
