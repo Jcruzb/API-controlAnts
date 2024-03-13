@@ -10,6 +10,19 @@ const debtSchema = new Schema({
         type: Number,
         required: true
     },
+    pays: [
+        {
+            quotes:{
+                type: Number,
+                required: true,
+                default: 0
+            },
+            payDate: {
+                type: Date
+            }
+            
+        }
+    ],
     numberOfQuotes: {
         type: Number,
         required: true
