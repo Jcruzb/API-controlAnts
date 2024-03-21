@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const FRECUENCY = ['mensual', 'único']
+const FRECUENCY = ['Mensual', 'Único']
 
 const incomeSchema = new Schema({
     source: {
