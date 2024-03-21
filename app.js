@@ -32,6 +32,8 @@ const storeRoutes = require('./routes/store.routes')
 app.use('/stores', storeRoutes)
 const debtRoutes = require('./routes/debt.routes')
 app.use('/debts', debtRoutes)
+const incomeRoutes = require('./routes/income.routes')
+app.use('/incomes', incomeRoutes)
 
 app.use((errors, req, res, next) => {
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send({ error: errors.message })
