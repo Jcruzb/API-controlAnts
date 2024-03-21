@@ -4,7 +4,7 @@ const FRECUENCY = ['Mensual', 'Único']
 
 const incomeSchema = new Schema({
     source: {
-        type: Number,
+        type: String,
         required:true
     },
     amount: {

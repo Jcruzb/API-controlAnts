@@ -7,7 +7,10 @@ module.exports.createIncome = (req, res, next) => {
         .then(income => {
             res.status(HttpStatus.StatusCodes.CREATED).json(income);
         })
-        .catch(next)
+        .catch(error =>{
+            console.log(error)
+            next()
+        })
 }
 
 module.exports.getIncomes = (req, res, next) => {
