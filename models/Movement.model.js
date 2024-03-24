@@ -11,9 +11,9 @@ const movementSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Debt'
         },
-        buy:{
+        purchase:{
             type: Schema.Types.ObjectId,
-            ref: 'Buy' 
+            ref: 'Purchase' 
         }
     },
     kind: {
