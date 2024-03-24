@@ -20,11 +20,11 @@ const incomeSchema = new Schema({
 },
 {
     timestamps:true,
-    toJson: {
+    toJSON: {
         transform: function(doc, ret){
             ret.id = ret._id;
             delete ret._id;
-            delete ret._v;
+            delete ret._v;  
             return ret
         }
     }
