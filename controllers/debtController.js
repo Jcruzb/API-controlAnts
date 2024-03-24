@@ -3,7 +3,6 @@ const HttpStatus = require('http-status-codes');
 const createError = require('http-errors');
 
 module.exports.createDebt = (req, res, next) => {
-    console.log(req.body);
     Debt.create(req.body)
         .then(debt => {
             console.log(debt),            res.status(HttpStatus.StatusCodes.CREATED).json(debt);
@@ -19,7 +18,6 @@ module.exports.getDebts = (req, res, next) => {
             console.log('Error', err);
             next(err);
         });
-
 }
 
 module.exports.getDebt = (req, res, next) => {
