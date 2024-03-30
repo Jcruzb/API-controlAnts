@@ -27,6 +27,13 @@ const userSchema = new Schema({
         minLength: [8, 'Password needs at least 8 chars'],
         trim: true
     },
+    incomes:[{
+        income: {
+            type: Schema.Types.ObjectId,
+            ref: 'Income'
+        },
+    }],
+
     familyName: {
         type: String,
         trim: true,

@@ -1,6 +1,7 @@
 const Income = require('../models/Income.model')
 const HttpStatus = require('http-status-codes');
 const createError = require('http-errors');
+const { populate } = require('../models/Debt.model');
 
 module.exports.createIncome = (req, res, next) => {
     Income.create(req.body)
@@ -15,6 +16,7 @@ module.exports.createIncome = (req, res, next) => {
 
 module.exports.getIncomes = (req, res, next) => {
     Income.find()
+        .populate('user')
         .then(income => {
             res.status(HttpStatus.StatusCodes.OK).json(income);
         })

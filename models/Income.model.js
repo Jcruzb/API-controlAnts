@@ -16,6 +16,13 @@ const incomeSchema = new Schema({
         enum: FRECUENCY,
         required: true
 
+    },
+    date:{
+        type: Date,
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 },
 {
