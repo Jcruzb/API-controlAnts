@@ -9,7 +9,7 @@ require('./config/db.config')
 
 const app = express()
 
-
+//prueba
 app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
