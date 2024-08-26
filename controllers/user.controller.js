@@ -14,6 +14,7 @@ module.exports.register = (req, res, next) => {
 
 module.exports.getUsers = (req, res, next) => {
     User.find()
+        .populate('income')
         .then(users => {
             res.status(HttpStatus.StatusCodes.OK).json(users);
         })
@@ -32,6 +33,33 @@ module.exports.editUser = (req, res, next) => {
         })
         .catch(() => next(editError));
 }
+module.exports.addIncome = (req, res, next) => {
+    const { id } = req.params;
+
+    User.findById(id)
+        .then((user) => {
+            if (!user) {
+                return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
+            } else {
+                if (!req.body) {
+                    return res.status(HttpStatus.StatusCodes.BAD_REQUEST).send('No data provided');
+                }
+                user.incomes.push(req.body);
+
+                return user.save()
+                    .then(() => {
+                        res.status(HttpStatus.StatusCodes.CREATED).json(user);
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        next(createError(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR, error.message));
+                    });
+            }
+        })
+        .catch((error) => {
+            next(createError(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR, error.message));
+        });
+};
 
 module.exports.deleteUser = (req, res, next) => {
     const deleteError = createError(HttpStatus.StatusCodes.CONFLICT, 'error al eliminar el usuario');
@@ -48,33 +76,31 @@ module.exports.deleteUser = (req, res, next) => {
 
 module.exports.activate = (req, res, next) => {
     User.findByIdAndUpdate(req.params.id, { active: true })
-      .then(() => {
-        res.redirect(`${process.env.APP_FRONTEND}/login`);
-      })
-      .catch(next);
-  };
+        .then(() => {
+            res.redirect(`${process.env.APP_FRONTEND}/login`);
+        })
+        .catch(next);
+};
 
-  module.exports.me = (req, res, next) => {
+module.exports.me = (req, res, next) => {
     User.findById(req.currentUser)
-      .then((user) => {
-        if (!user) {
-          next(createHttpError(StatusCodes.NOT_FOUND, "User not found"));
-        } else {
-          res.json(user);
-        }
-      })
-      .catch(next);
-  };
+        .then((user) => {
+            if (!user) {
+                next(createHttpError(StatusCodes.NOT_FOUND, "User not found"));
+            } else {
+                res.json(user);
+            }
+        })
+        .catch(next);
+};
 
-  //get just the name and the email
+module.exports.getUsersNameAndEmail = (req, res, next) => {
+    User.find({}, { name: 1, email: 1 })
+        .then(users => {
+            res.status(HttpStatus.StatusCodes.OK).json(users);
+        })
+        .catch(next);
+}
 
-    module.exports.getUsersNameAndEmail = (req, res, next) => {
-        User.find({}, {name: 1, email: 1})
-            .then(users => {
-                res.status(HttpStatus.StatusCodes.OK).json(users);
-            })
-            .catch(next);
-    }
-  
 
 
