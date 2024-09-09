@@ -38,6 +38,8 @@ const purchaseRoutes = require('./routes/purchase.routes')
 app.use('/purchase', purchaseRoutes)
 const movementRoutes = require('./routes/movement.routes')
 app.use('/movement', movementRoutes)
+const familyRoutes = require('./routes/family.routes')
+app.use('/family', familyRoutes)
 
 app.use((errors, req, res, next) => {
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send({ error: errors.message })

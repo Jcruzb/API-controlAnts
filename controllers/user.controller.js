@@ -15,6 +15,7 @@ module.exports.register = (req, res, next) => {
 module.exports.getUsers = (req, res, next) => {
     User.find()
         .populate('income')
+        .populate('family')
         .then(users => {
             res.status(HttpStatus.StatusCodes.OK).json(users);
         })
@@ -84,6 +85,7 @@ module.exports.activate = (req, res, next) => {
 
 module.exports.me = (req, res, next) => {
     User.findById(req.currentUser)
+        .populate('family')
         .then((user) => {
             if (!user) {
                 next(createHttpError(StatusCodes.NOT_FOUND, "User not found"));
@@ -101,6 +103,3 @@ module.exports.getUsersNameAndEmail = (req, res, next) => {
         })
         .catch(next);
 }
-
-
-
