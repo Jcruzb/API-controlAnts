@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const KIND = [ 'fijo', 'variable', 'extra' ];
+const KIND = ['fijo', 'variable'];
+const GROUP = ['familiar', 'personal'];
 
 const expenseSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
     amount: {
         type: Number,
         required: true
@@ -21,26 +18,42 @@ const expenseSchema = new Schema({
         enum: KIND,
         required: true
     },
-    product: {
-        type: Schema.Types.ObjectId,
-        ref: 'Product'
+    expenseGroup: {
+        type: String,
+        enum: GROUP,
+        required: true
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    status: { // Cambiamos status a un objeto con propiedades booleanas
+        planeado: {
+            type: Boolean,
+            default: true
+        },
+        realizado: {
+            type: Boolean,
+            default: false
+        }
     },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Category'
+    },
+    description: {
+        type: String
     }
-},
-{
+}, {
     timestamps: true,
     toJSON: {
-        transform: function(doc, ret) {
+        transform: function (doc, ret) {
             ret.id = ret._id;
             delete ret._id;
             delete ret.__v;
             return ret;
         }
     }
-}
-);
+});
 
 module.exports = mongoose.model('Expense', expenseSchema);

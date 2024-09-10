@@ -19,7 +19,8 @@ const userSchema = new Schema({
         trim: true,
         unique: true,
         lowercase: true,
-        match: [EMAIL_PATTERN, 'Invalid email format']
+        match: [EMAIL_PATTERN, 'Invalid email format'],
+        index: true
     },
     password: {
         type: String,
@@ -33,16 +34,27 @@ const userSchema = new Schema({
         required: true,
         default: 'usuario'
     },
-    incomes: [{
-        income: {
-            type: Schema.Types.ObjectId,
-            ref: 'Income'
-        },
-    }],
     family: {
         type: Schema.Types.ObjectId,
-        ref: 'Family'
+        ref: 'Family',
+        index: true
     },
+    financialRecords: [{
+        recordType: {
+            type: String,
+            enum: ['income', 'debt', 'expense', 'movement'],
+            required: true
+        },
+        recordId: {
+            type: Schema.Types.ObjectId,
+            refPath: 'financialRecords.recordType',
+            required: true
+        }
+    }],
+    budgets: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Budget'
+    }],
     active: {
         type: Boolean,
         default: false
@@ -65,12 +77,10 @@ userSchema.pre('save', function (next) {
 
     if (user.isModified('password')) {
         bcrypt.genSalt(SALT_WORK_FACTOR)
-            .then(salt => {
-                return bcrypt.hash(user.password, salt)
-                    .then(hash => {
-                        user.password = hash;
-                        next();
-                    })
+            .then(salt => bcrypt.hash(user.password, salt))
+            .then(hash => {
+                user.password = hash;
+                next();
             })
             .catch(error => next(error));
     } else {
