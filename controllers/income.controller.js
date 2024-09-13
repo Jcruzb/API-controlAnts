@@ -15,12 +15,17 @@ module.exports.createIncome = (req, res, next) => {
 }
 
 module.exports.getIncomes = (req, res, next) => {
+    console.log('getIncomes')
     Income.find()
-        .populate('user')
+        .populate('responsable')
         .then(income => {
+            console.log(income)
             res.status(HttpStatus.StatusCodes.OK).json(income);
         })
-        .catch(next);
+        .catch(err => {
+            console.log(err)
+            next()
+        })
 }
 
 module.exports.getIncome = (req, res, next) => {
