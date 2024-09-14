@@ -1,0 +1,31 @@
+[
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b6a1",
+    "source": "Salario",
+    "amount": 2500,
+    "frequency": "Mensual",
+    "incomeGroup": "personal",
+    "date": "2023-09-01T00:00:00.000Z",
+    "limitDate": "2024-09-01T00:00:00.000Z",
+    "isActive": true,
+    "status": {
+      "planeado": true,
+      "realizado": false
+    },
+    "responsable": "64e45e0a1bfb3a2f4f61b5a1"
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b6a2",
+    "source": "Freelance",
+    "amount": 500,
+    "frequency": "Único",
+    "incomeGroup": "personal",
+    "date": "2023-10-15T00:00:00.000Z",
+    "isActive": true,
+    "status": {
+      "planeado": true,
+      "realizado": true
+    },
+    "responsable": "64e45e0a1bfb3a2f4f61b5a2"
+  }
+]

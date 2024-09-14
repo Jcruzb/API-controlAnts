@@ -19,7 +19,6 @@ module.exports.getIncomes = (req, res, next) => {
     Income.find()
         .populate('responsable')
         .then(income => {
-            console.log(income)
             res.status(HttpStatus.StatusCodes.OK).json(income);
         })
         .catch(err => {

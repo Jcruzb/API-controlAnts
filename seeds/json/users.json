@@ -1,0 +1,42 @@
+[
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b5a1",
+    "name": "Juan Carlos",
+    "email": "juan.carlos@example.com",
+    "password": "hashedpassword1",
+    "role": "usuario",
+    "family": "64e45e0a1bfb3a2f4f61b4f1",
+    "financialRecords": [
+      {
+        "recordType": "income",
+        "recordId": "64e45e0a1bfb3a2f4f61b6a1"
+      },
+      {
+        "recordType": "expense",
+        "recordId": "64e45e0a1bfb3a2f4f61b7a1"
+      }
+    ],
+    "budgets": ["64e45e0a1bfb3a2f4f61b8a1"],
+    "active": true
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b5a2",
+    "name": "Ana María",
+    "email": "ana.maria@example.com",
+    "password": "hashedpassword2",
+    "role": "usuario",
+    "family": "64e45e0a1bfb3a2f4f61b4f1",
+    "financialRecords": [
+      {
+        "recordType": "debt",
+        "recordId": "64e45e0a1bfb3a2f4f61b9a1"
+      },
+      {
+        "recordType": "income",
+        "recordId": "64e45e0a1bfb3a2f4f61b6a2"
+      }
+    ],
+    "budgets": ["64e45e0a1bfb3a2f4f61b8a2"],
+    "active": true
+  }
+]

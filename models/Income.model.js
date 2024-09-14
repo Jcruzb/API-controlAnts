@@ -22,7 +22,8 @@ const incomeSchema = new Schema({
     incomeGroup: {
         type: String,
         enum: GROUP,
-        required: true
+        required: true,
+        default: 'personal'
     },
     date: {
         type: Date,
