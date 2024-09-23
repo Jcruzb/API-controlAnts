@@ -28,6 +28,9 @@ const debtSchema = new Schema({
             type: Date
         }
     }],
+    toPay: {
+        type: Number,
+    },
     numberOfQuotes: { 
         type: Number,
         required: true
@@ -76,6 +79,12 @@ debtSchema.pre('save', function(next) {
         startDate.setMonth(startDate.getMonth() + totalMonths);
         this.endDate = startDate; 
     }
+    next();
+});
+
+debtSchema.pre('save', function(next) {
+    const totalPaid = this.pays.reduce((total, pay) => total + pay.quotes*this.quote, 0);
+    this.toPay = this.amount - totalPaid;
     next();
 });
 
