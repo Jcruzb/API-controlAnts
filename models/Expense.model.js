@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const KIND = ['fijo', 'variable'];
 const GROUP = ['familiar', 'personal'];
+const PAYEDMETHOD = ['Efectivo', 'Tarjeta', 'Cuenta nominada', 'Tarjeta de alimentos'];
 
 const expenseSchema = new Schema({
     amount: {
@@ -43,6 +44,23 @@ const expenseSchema = new Schema({
     },
     description: {
         type: String
+    },
+    planedPayer: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    realPayer: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    payedWith: {
+        payedMetod: {
+            type: String,
+            enum: PAYEDMETHOD
+        },
+        description: {
+            type: String
+        }        
     }
 }, {
     timestamps: true,

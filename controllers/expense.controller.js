@@ -1,11 +1,18 @@
 const Expense = require('../models/Expense.model');
+const User = require('../models/User.model');
 const HttpStatus = require('http-status-codes');
 const createError = require('http-errors');
 
 module.exports.createExpense = (req, res, next) => {
+    const { planedPayer } = req.body;
+
     Expense.create(req.body)
         .then(expense => {
-            res.status(HttpStatus.StatusCodes.CREATED).json(expense);
+            return User.findByIdAndUpdate(planedPayer, {
+                $push: { expenses: expense._id }
+            }, { new: true }).then(() => {
+                res.status(HttpStatus.StatusCodes.CREATED).json(expense);
+            });
         })
         .catch(next);
 }
@@ -31,9 +38,10 @@ module.exports.getExpense = (req, res, next) => {
 
 
 module.exports.editExpense = (req, res, next) => {
-    const editError = createError(HttpStatus.StatusCodes.CONFLICT, 'error al editar el gasto');
     const { id } = req.params;
-    Expense.findByIdAndUpdate(id, req.body)
+    const editError = createError(HttpStatus.StatusCodes.CONFLICT, 'Error al editar el gasto');
+
+    Expense.findByIdAndUpdate(id, req.body, { new: true })
         .then(expense => {
             if (!expense) {
                 return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
@@ -44,14 +52,19 @@ module.exports.editExpense = (req, res, next) => {
 }
 
 module.exports.deleteExpense = (req, res, next) => {
-    const deleteError = createError(HttpStatus.StatusCodes.CONFLICT, 'error al eliminar el gasto');
     const { id } = req.params;
+    const deleteError = createError(HttpStatus.StatusCodes.CONFLICT, 'Error al eliminar el gasto');
+
     Expense.findByIdAndDelete(id)
         .then(expense => {
             if (!expense) {
                 return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
             }
-            res.status(HttpStatus.StatusCodes.OK).json(expense);
+            return User.findByIdAndUpdate(expense.planedPayer, {
+                $pull: { expenses: expense._id }
+            }).then(() => {
+                res.status(HttpStatus.StatusCodes.OK).json(expense);
+            });
         })
         .catch(() => next(deleteError));
 }

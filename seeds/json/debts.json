@@ -1,36 +1,53 @@
 [
   {
-    "_id": "64e45e0a1bfb3a2f4f61b8a1",
-    "name": "Préstamo Auto",
+    "_id": "64e45e0a1bfb3a2f4f61b9b2",
+    "name": "Préstamo Vehículo",
     "kind": "personal",
-    "quote": 400,
+    "quote": 500,
     "pays": [
       {
         "quotes": 2,
-        "payDate": "2024-01-10T00:00:00.000Z"
+        "payDate": "2024-08-15"
       }
     ],
-    "numberOfQuotes": 10,
-    "amount": 4000,
-    "startDate": "2024-01-01T00:00:00.000Z",
-    "debtOwner": "64e45e0a1bfb3a2f4f61b5a1",
-    "payer": "64e45e0a1bfb3a2f4f61b5a1"
+    "numberOfQuotes": 24,
+    "amount": 12000,
+    "startDate": "2024-06-01",
+    "debtOwner": "64e45e0a1bfb3a2f4f61b5a3",
+    "payer": "64e45e0a1bfb3a2f4f61b5a4"
   },
   {
-    "_id": "64e45e0a1bfb3a2f4f61b8a2",
+    "_id": "64e45e0a1bfb3a2f4f61b9b3",
     "name": "Hipoteca",
     "kind": "familiar",
-    "quote": 1000,
+    "quote": 800,
+    "pays": [
+      {
+        "quotes": 1,
+        "payDate": "2024-08-20"
+      }
+    ],
+    "numberOfQuotes": 360,
+    "amount": 288000,
+    "startDate": "2024-07-01",
+    "debtOwner": "64e45e0a1bfb3a2f4f61b5a4",
+    "payer": "64e45e0a1bfb3a2f4f61b5a3"
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b9b4",
+    "name": "Préstamo Estudio",
+    "kind": "personal",
+    "quote": 200,
     "pays": [
       {
         "quotes": 3,
-        "payDate": "2024-02-10T00:00:00.000Z"
+        "payDate": "2024-08-25"
       }
     ],
-    "numberOfQuotes": 20,
-    "amount": 20000,
-    "startDate": "2024-02-01T00:00:00.000Z",
-    "debtOwner": "64e45e0a1bfb3a2f4f61b5a2",
-    "payer": "64e45e0a1bfb3a2f4f61b5a2"
+    "numberOfQuotes": 12,
+    "amount": 2400,
+    "startDate": "2024-07-01",
+    "debtOwner": "64e45e0a1bfb3a2f4f61b5a4",
+    "payer": "64e45e0a1bfb3a2f4f61b5a3"
   }
 ]

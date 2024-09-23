@@ -39,6 +39,18 @@ const userSchema = new Schema({
         ref: 'Family',
         index: true
     },
+    incomes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Income'
+    }],
+    debts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Debt'
+    }],
+    debtsToPay: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Debt'
+    }],
     financialRecords: [{
         recordType: {
             type: String,
@@ -58,7 +70,11 @@ const userSchema = new Schema({
     active: {
         type: Boolean,
         default: false
-    }
+    },
+    expenses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Expense'
+    }]
 }, {
     timestamps: true,
     toJSON: {

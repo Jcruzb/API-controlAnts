@@ -1,26 +1,28 @@
 [
   {
-    "_id": "64e45e0a1bfb3a2f4f61b5a1",
-    "name": "Maria Gomez",
-    "email": "maria.gomez@example.com",
-    "password": "hashed_password_1",
-    "role": "usuario",
-    "active": true
-  },
-  {
-    "_id": "64e45e0a1bfb3a2f4f61b5a2",
-    "name": "Pedro Sanchez",
-    "email": "pedro.sanchez@example.com",
-    "password": "hashed_password_2",
-    "role": "usuario",
-    "active": false
-  },
-  {
     "_id": "64e45e0a1bfb3a2f4f61b5a3",
     "name": "Juan Carlos Cruz Balladares",
     "email": "j.cruzb@outlook.com",
     "password": "juan1234",
     "role": "administrador",
-    "active": true
+    "active": true,
+    "debts": ["64e45e0a1bfb3a2f4f61b9b2","64e45e0a1bfb3a2f4f61b9b4"], 
+    "debtsToPay": ["64e45e0a1bfb3a2f4f61b9b3"], 
+    "incomes": ["64e45e0a1bfb3a2f4f61b9b1"],
+    "family": "64e45e0a1bfb3a2f4f61b4f1",
+    "expenses": ["64e45e0a1bfb3a2f4f61b9b1", "64e45e0a1bfb3a2f4f61b9b3"]
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b5a4",
+    "name": "Blanca Pariona",
+    "email": "bpariona.isidro@gmail.com",
+    "password": "blanca123",
+    "role": "administrador",
+    "active": true,
+    "debts": ["64e45e0a1bfb3a2f4f61b9b3"], 
+    "debtsToPay": ["64e45e0a1bfb3a2f4f61b9b2"],
+    "incomes": ["64e45e0a1bfb3a2f4f61b9b5"],
+    "family": "64e45e0a1bfb3a2f4f61b4f1",
+    "expenses": ["64e45e0a1bfb3a2f4f61b9b2"]
   }
 ]

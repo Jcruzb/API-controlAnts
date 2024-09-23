@@ -1,28 +1,62 @@
 [
   {
-    "_id": "64e45e0a1bfb3a2f4f61b7a1",
-    "amount": 800,
-    "date": "2024-01-15T00:00:00.000Z",
+    "_id": "64e45e0a1bfb3a2f4f61b9b1",
+    "amount": 500,
+    "date": "2024-08-01T00:00:00.000Z",
     "kind": "fijo",
+    "expenseGroup": "familiar",
+    "isActive": true,
+    "status": {
+      "planeado": true,
+      "realizado": true
+    },
+    "category": "64e45e0a1bfb3a2f4f61b9a5",
+    "description": "Alquiler mensual",
+    "planedPayer": "64e45e0a1bfb3a2f4f61b5a3",
+    "realPayer": "64e45e0a1bfb3a2f4f61b5a3",
+    "payedWith": {
+      "payedMetod": "Tarjeta",
+      "description": "Pago con tarjeta de débito"
+    }
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b9b2",
+    "amount": 150,
+    "date": "2024-08-05T00:00:00.000Z",
+    "kind": "variable",
     "expenseGroup": "personal",
     "isActive": true,
     "status": {
       "planeado": true,
       "realizado": true
     },
-    "category": "64e45e0a1bfb3a2f4f61b9b1"
+    "category": "64e45e0a1bfb3a2f4f61b9a1",
+    "description": "Compra semanal de alimentos",
+    "planedPayer": "64e45e0a1bfb3a2f4f61b5a4",
+    "realPayer": "64e45e0a1bfb3a2f4f61b5a4",
+    "payedWith": {
+      "payedMetod": "Efectivo",
+      "description": "Pago en efectivo"
+    }
   },
   {
-    "_id": "64e45e0a1bfb3a2f4f61b7a2",
-    "amount": 200,
-    "date": "2024-01-20T00:00:00.000Z",
+    "_id": "64e45e0a1bfb3a2f4f61b9b3",
+    "amount": 60,
+    "date": "2024-08-10T00:00:00.000Z",
     "kind": "variable",
     "expenseGroup": "familiar",
     "isActive": true,
     "status": {
       "planeado": true,
-      "realizado": false
+      "realizado": true
     },
-    "category": "64e45e0a1bfb3a2f4f61b9a5"
+    "category": "64e45e0a1bfb3a2f4f61b9a2",
+    "description": "Salida al cine",
+    "planedPayer": "64e45e0a1bfb3a2f4f61b5a3",
+    "realPayer": "64e45e0a1bfb3a2f4f61b5a3",
+    "payedWith": {
+      "payedMetod": "Tarjeta de alimentos",
+      "description": "Pago con tarjeta de alimentos"
+    }
   }
 ]
