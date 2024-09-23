@@ -1,30 +1,28 @@
 [
   {
     "_id": "64e45e0a1bfb3a2f4f61b7a1",
-    "amount": 1000,
-    "date": "2023-09-05T00:00:00.000Z",
+    "amount": 800,
+    "date": "2024-01-15T00:00:00.000Z",
     "kind": "fijo",
     "expenseGroup": "personal",
     "isActive": true,
     "status": {
       "planeado": true,
-      "realizado": false
+      "realizado": true
     },
-    "category": "64e45e0a1bfb3a2f4f61b9a2",
-    "description": "Alquiler"
+    "category": "64e45e0a1bfb3a2f4f61b9b1"
   },
   {
     "_id": "64e45e0a1bfb3a2f4f61b7a2",
-    "amount": 150,
-    "date": "2023-09-10T00:00:00.000Z",
+    "amount": 200,
+    "date": "2024-01-20T00:00:00.000Z",
     "kind": "variable",
     "expenseGroup": "familiar",
     "isActive": true,
     "status": {
       "planeado": true,
-      "realizado": true
+      "realizado": false
     },
-    "category": "64e45e0a1bfb3a2f4f61b9a3",
-    "description": "Comida"
+    "category": "64e45e0a1bfb3a2f4f61b9a5"
   }
 ]

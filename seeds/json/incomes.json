@@ -1,31 +1,30 @@
 [
   {
-    "_id": "64e45e0a1bfb3a2f4f61b6a1",
+    "_id": "64e45e0a1bfb3a2f4f61b5b1",
     "source": "Salario",
-    "amount": 2500,
+    "amount": 3000,
     "frequency": "Mensual",
     "incomeGroup": "personal",
-    "date": "2023-09-01T00:00:00.000Z",
-    "limitDate": "2024-09-01T00:00:00.000Z",
+    "date": "2024-01-01T00:00:00.000Z",
     "isActive": true,
+    "responsable": "64e45e0a1bfb3a2f4f61b5a1",
     "status": {
       "planeado": true,
       "realizado": false
-    },
-    "responsable": "64e45e0a1bfb3a2f4f61b5a1"
+    }
   },
   {
-    "_id": "64e45e0a1bfb3a2f4f61b6a2",
+    "_id": "64e45e0a1bfb3a2f4f61b5b2",
     "source": "Freelance",
-    "amount": 500,
+    "amount": 1000,
     "frequency": "Único",
     "incomeGroup": "personal",
-    "date": "2023-10-15T00:00:00.000Z",
+    "date": "2024-02-01T00:00:00.000Z",
     "isActive": true,
+    "responsable": "64e45e0a1bfb3a2f4f61b5a2",
     "status": {
       "planeado": true,
       "realizado": true
-    },
-    "responsable": "64e45e0a1bfb3a2f4f61b5a2"
+    }
   }
 ]

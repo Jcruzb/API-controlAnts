@@ -11,7 +11,7 @@ const seedUsers = () => {
 
 
   mongoose.connection
-    .dropCollection("family")
+    .dropCollection("families")
     .then(() => {
       console.log("DB cleared");
 
@@ -37,7 +37,7 @@ if(require.main === module) {
   console.log("ejecución directa de semilla ")
   mongoose.connection.once("open", () => {
   mongoose.connection
-    .dropCollection("family")
+    .dropCollection("families")
     .then(() => {
       console.log("DB cleared");
 

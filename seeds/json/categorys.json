@@ -1,12 +1,12 @@
 [
   {
-    "_id": "64e45e0a1bfb3a2f4f61b9a2",
-    "name": "Vivienda",
-    "description": "Gastos relacionados con la vivienda"
+    "_id": "64e45e0a1bfb3a2f4f61b9b1",
+    "name": "Alquiler",
+    "description": "Gastos relacionados con el alquiler"
   },
   {
-    "_id": "64e45e0a1bfb3a2f4f61b9a3",
-    "name": "Alimentación",
-    "description": "Gastos en alimentos"
+    "_id": "64e45e0a1bfb3a2f4f61b9a5",
+    "name": "Comida",
+    "description": "Gastos relacionados con alimentos"
   }
 ]

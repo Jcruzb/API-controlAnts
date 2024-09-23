@@ -1,7 +1,7 @@
 [
   {
-    "_id": "64e45e0a1bfb3a2f4f61b4f1",
-    "familyName": "Familia Pérez",
+    "_id": "64e45e0a1bfb3a2f4f61b6a0",
+    "familyName": "Familia Gomez",
     "members": [
       {
         "user": "64e45e0a1bfb3a2f4f61b5a1",
@@ -11,6 +11,17 @@
       {
         "user": "64e45e0a1bfb3a2f4f61b5a2",
         "role": "member",
+        "status": "accepted"
+      }
+    ]
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b6a7",
+    "familyName": "Familia Sanchez",
+    "members": [
+      {
+        "user": "64e45e0a1bfb3a2f4f61b5a3",
+        "role": "admin",
         "status": "accepted"
       }
     ]
