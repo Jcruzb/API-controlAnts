@@ -12,6 +12,7 @@ router.get('/users', authMiddleware.isAuthenticated, userController.getUsers);
 router.get('/:id/activate', userController.activate);
 router.put('/:id', authMiddleware.isAuthenticated, userController.editUser);
 router.delete('/:id', authMiddleware.isAuthenticated, userController.deleteUser);
+router.get('/:id', authMiddleware.isAuthenticated, userController.getUser);
 
 
 module.exports = router;

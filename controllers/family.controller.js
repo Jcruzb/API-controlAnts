@@ -140,3 +140,50 @@ module.exports.deleteFamilyMember = async (req, res, next) => {
         next(createError(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR, error.message));
     }
 };
+
+module.exports.getFamilyMembers = (req, res, next) => {
+    const { id } = req.params;
+
+    console.log(id);
+
+    Family.findById(id)
+        .populate({
+            path: 'members.user',
+            populate: [
+                { path: 'incomes' }, // Populamos los ingresos
+                { path: 'debts' }, // Populamos las deudas
+                { path: 'expenses' }, // Populamos los gastos
+             
+                { path: 'financialRecords.recordId' } // Populamos los registros financieros según recordType
+            ]
+        })
+        .then(family => {
+            if (!family) {
+                return res.status(HttpStatus.StatusCodes.NOT_FOUND).send('Familia no encontrada');
+            }
+
+            // Mapeamos los datos para obtener userId y datos financieros de cada miembro
+            const result = family.members.map(member => {
+                const user = member.user;
+
+                return {
+                    userId: user._id,
+                    incomes: user.incomes.map(income => income._id),
+                    debts: user.debts.map(debt => debt._id),
+                    debtsToPay: user.debtsToPay.map(debt => debt._id),
+                    expenses: user.expenses.map(expense => expense._id),
+                    financialRecords: user.financialRecords.map(record => ({
+                        recordType: record.recordType,
+                        recordId: record.recordId._id
+                    }))
+                };
+            });
+
+            res.status(HttpStatus.StatusCodes.OK).json({ users: result });
+        })
+        .catch(error => {
+            console.log('entra al catch');
+            console.error('Error:', error); // Añade un log detallado del error
+            next(error);
+        });
+};

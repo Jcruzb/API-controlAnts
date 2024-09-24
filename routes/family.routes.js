@@ -7,5 +7,6 @@ router.put('/:id/accept/:familyMemberId', authMiddleware.isAuthenticated, family
 router.put('/:id/reject/:familyMemberId', authMiddleware.isAuthenticated, familyController.rejectFamilyInvitation);
 router.put('/id/block/:familyMemberId', authMiddleware.isAuthenticated, familyController.blockFamilyMember);
 router.delete('/:id', authMiddleware.isAuthenticated, familyController.deleteFamilyMember);
+router.get('/:id', authMiddleware.isAuthenticated, familyController.getFamilyMembers);
 
 module.exports = router;

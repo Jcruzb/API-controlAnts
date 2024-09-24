@@ -35,6 +35,10 @@ const debtSchema = new Schema({
         type: Number,
         required: true
     },
+    feesToPay: {
+        type: Number,
+        default: 0
+    },
     amount: { 
         type: Number,
         required: true
@@ -85,6 +89,10 @@ debtSchema.pre('save', function(next) {
 debtSchema.pre('save', function(next) {
     const totalPaid = this.pays.reduce((total, pay) => total + pay.quotes*this.quote, 0);
     this.toPay = this.amount - totalPaid;
+
+    const totalQuotesPaid = this.pays.reduce((total, pay) => total + pay.quotes, 0);
+    this.feesToPay = this.numberOfQuotes - totalQuotesPaid;
+    
     next();
 });
 

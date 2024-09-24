@@ -96,6 +96,18 @@ module.exports.me = (req, res, next) => {
         .catch(next);
 };
 
+module.exports.getUser = (req, res, next) => {
+    const { id } = req.params;
+    User.findById(id)
+        .then(user => {
+            if (!user) {
+                return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
+            }
+            res.status(HttpStatus.StatusCodes.OK).json(user);
+        })
+        .catch(next);
+}
+
 module.exports.getUsersNameAndEmail = (req, res, next) => {
     User.find({}, { name: 1, email: 1 })
         .then(users => {
