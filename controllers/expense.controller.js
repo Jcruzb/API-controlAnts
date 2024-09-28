@@ -27,10 +27,12 @@ module.exports.getExpenses = (req, res, next) => {
 module.exports.getExpense = (req, res, next) => {
     const { id } = req.params;
     Expense.findById(id)
+        .populate('category')
         .then(expense => {
             if (!expense) {
                 return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
             }
+            console.log(expense)
             res.status(HttpStatus.StatusCodes.OK).json(expense);
         })
         .catch(next);
