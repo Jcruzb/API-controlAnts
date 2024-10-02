@@ -9,8 +9,13 @@ require('./config/db.config')
 
 const app = express()
 
-//prueba
-app.use(cors())
+
+const corsOptions = {
+    origin: process.env.APP_FRONTEND,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions))
 app.use(logger('dev'))
 app.use(express.json())
 
@@ -38,7 +43,7 @@ app.use((errors, req, res, next) => {
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send({ error: errors.message })
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`)
