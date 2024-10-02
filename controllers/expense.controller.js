@@ -19,6 +19,7 @@ module.exports.createExpense = (req, res, next) => {
 
 module.exports.getExpenses = (req, res, next) => {
     Expense.find()
+        .populate('category')
         .then(expenses => {
             res.status(HttpStatus.StatusCodes.OK).json(expenses);
         })
