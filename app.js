@@ -11,7 +11,7 @@ const app = express()
 
 
 const corsOptions = {
-    origin: process.env.APP_FRONTEND,
+    origin: [process.env.APP_FRONTEND, process.env.APP_FRONTEND_SECUNDARY],
     optionsSuccessStatus: 200
 };
 
