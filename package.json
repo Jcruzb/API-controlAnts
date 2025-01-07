@@ -13,7 +13,8 @@
     "expenses.seeds": "node ./seeds/expenses.seeds.js",
     "debts.seeds": "node ./seeds/debts.seeds.js",
     "categorys.seeds": "node ./seeds/categorys.seeds.js",
-    "all.seeds": "npm run users.seeds && npm run incomes.seeds && npm run family.seeds && npm run expenses.seeds && npm run debts.seeds && npm run categorys.seeds"
+    "program.seeds": "node ./seeds/program.seeds.js",
+    "all.seeds": "npm run users.seeds && npm run incomes.seeds && npm run family.seeds && npm run expenses.seeds && npm run debts.seeds && npm run program.seeds"
   },
   "repository": {
     "type": "git",

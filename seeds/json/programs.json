@@ -1,0 +1,17 @@
+[
+  {
+    "month": 1,
+    "year": 2025,
+    "family": "64e45e0a1bfb3a2f4f61b4f1",
+    "expenses": [
+      "64e45e0a1bfb3a2f4f61b9b1",
+      "64e45e0a1bfb3a2f4f61b9b2",
+      "64e45e0a1bfb3a2f4f61b9b3"
+    ],
+    "debts": [
+      "64e45e0a1bfb3a2f4f61b9b2",
+      "64e45e0a1bfb3a2f4f61b9b3",
+      "64e45e0a1bfb3a2f4f61b9b4"
+    ]
+  }
+]

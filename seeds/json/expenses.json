@@ -58,5 +58,55 @@
       "payedMetod": "Tarjeta de alimentos",
       "description": "Pago con tarjeta de alimentos"
     }
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b9b4",
+    "amount": 200,
+    "date": "2024-08-15T00:00:00.000Z",
+    "kind": "variable",
+    "expenseGroup": "personal",
+    "isActive": true,
+    "status": {
+      "planeado": false,
+      "realizado": true
+    },
+    "category": "64e45e0a1bfb3a2f4f61b9a3",
+    "description": "Compra de ropa",
+    "planedPayer": "64e45e0a1bfb3a2f4f61b5a4",
+    "realPayer": "64e45e0a1bfb3a2f4f61b5a4",
+    "payedWith": {
+      "payedMetod": "Efectivo",
+      "description": "Pago en efectivo"
+    }
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b9b5",
+    "amount": 100,
+    "date": "2024-08-20T00:00:00.000Z",
+    "kind": "variable",
+    "expenseGroup": "personal",
+    "isActive": true,
+    "status": {
+      "planeado": true,
+      "realizado": false
+    },
+    "category": "64e45e0a1bfb3a2f4f61b9a4",
+    "description": "Compra de zapatos",
+    "planedPayer": "64e45e0a1bfb3a2f4f61b5a4"
+  },
+  {
+    "_id": "64e45e0a1bfb3a2f4f61b9b6",
+    "amount": 50,
+    "date": "2024-08-25T00:00:00.000Z",
+    "kind": "variable",
+    "expenseGroup": "personal",
+    "isActive": true,
+    "status": {
+      "planeado": true,
+      "realizado": false
+    },
+    "category": "64e45e0a1bfb3a2f4f61b9a4",
+    "description": "Compra de polos",
+    "planedPayer":"64e45e0a1bfb3a2f4f61b5a4"
   }
 ]

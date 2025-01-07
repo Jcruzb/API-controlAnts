@@ -144,8 +144,6 @@ module.exports.deleteFamilyMember = async (req, res, next) => {
 module.exports.getFamilyMembers = (req, res, next) => {
     const { id } = req.params;
 
-    console.log(id);
-
     Family.findById(id)
         .populate({
             path: 'members.user',
