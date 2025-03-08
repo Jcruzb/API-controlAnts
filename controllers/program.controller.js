@@ -71,20 +71,42 @@ module.exports.deleteProgram = (req, res, next) => {
 module.exports.getProgramByDate = (req, res, next) => {
     const { familyId, month, year } = req.body;
 
+    const startDate = new Date(year, month - 1, 1); // Inicio del mes
+    const endDate = new Date(year, month, 0, 23, 59, 59); // Fin del mes
+
+    console.log(`StartDate: ${startDate}`);
+    console.log(`EndDate: ${endDate}`);
+
     Program.findOne({ family: familyId, month, year })
         .populate('expenses')
         .populate('debts')
         .then(program => {
-            console.log(program)
             if (!program) {
-                return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Program not found' });
+                console.log('Program no encontrado para los parámetros proporcionados');
+                return res
+                    .status(HttpStatus.StatusCodes.NOT_FOUND)
+                    .json({ message: 'Program not found' });
             }
-            res.status(HttpStatus.StatusCodes.OK).json(program);
+
+            // Buscar gastos dentro del rango de fechas
+            return Expense.find({
+                family: familyId, // Usar directamente el familyId recibido
+                createdAt: { $gte: startDate, $lte: endDate }
+            }).then(expenses => {
+                console.log('Gastos encontrados:', expenses);
+
+                // Actualizar el programa con los gastos encontrados
+                program.expenses = expenses.map(expense => expense._id);
+                return program.save();
+            }).then(updatedProgram => {
+                console.log('Program actualizado:');
+                res.status(HttpStatus.StatusCodes.OK).json(updatedProgram);
+            });
         })
         .catch(err => {
-            console.log(err);
+            console.log('Entrando a catch con error:');
+            console.error(err.stack);
             next(err);
-        }
-        );
+        });
 };
 

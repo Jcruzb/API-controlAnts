@@ -20,7 +20,7 @@ app.use(logger('dev'))
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.status(HttpStatus.StatusCodes.OK).send('Hello World!')
+    res.status(HttpStatus.StatusCodes.OK).send('Hola Mundo de controlAnts')
 })
 
 //rutas
