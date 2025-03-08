@@ -4,18 +4,26 @@ const HttpStatus = require('http-status-codes');
 const createError = require('http-errors');
 
 module.exports.createExpense = (req, res, next) => {
-    const { planedPayer } = req.body;
 
-    Expense.create(req.body)
+    console.log('entra a createExpense')
+    if (!req.currentUser) {
+        return res.status(HttpStatus.StatusCodes.UNAUTHORIZED).json({ message: "Usuario no autenticado" });
+    }
+
+    const userId = req.currentUser._id;
+
+    console.log(req.body)
+
+    Expense.create({ ...req.body, user: userId })
         .then(expense => {
-            return User.findByIdAndUpdate(planedPayer, {
+            return User.findByIdAndUpdate(userId, {
                 $push: { expenses: expense._id }
             }, { new: true }).then(() => {
                 res.status(HttpStatus.StatusCodes.CREATED).json(expense);
             });
         })
-        .catch(next);
-}
+        .catch(err => console.log(err));
+};
 
 module.exports.getExpenses = (req, res, next) => {
     Expense.find()

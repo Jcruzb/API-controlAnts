@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const KIND = ['fijo', 'variable'];
+const KIND = ['fijo', 'variable', 'extra'];
 const GROUP = ['familiar', 'personal'];
 const PAYEDMETHOD = ['Efectivo', 'Tarjeta', 'Cuenta nominada', 'Tarjeta de alimentos', 'Por definir'];
 
 const expenseSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
     amount: {
         type: Number,
         required: true
@@ -28,7 +32,7 @@ const expenseSchema = new Schema({
         type: Boolean,
         default: true
     },
-    status: { // Cambiamos status a un objeto con propiedades booleanas
+    status: {
         planeado: {
             type: Boolean,
             default: true
@@ -45,7 +49,7 @@ const expenseSchema = new Schema({
     description: {
         type: String
     },
-    planedPayer: {
+    plannedPayer: {  // Renombrado de planedPayer
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
@@ -54,7 +58,7 @@ const expenseSchema = new Schema({
         ref: 'User'
     },
     payedWith: {
-        payedMetod: {
+        payedMethod: {  // Corregido el typo
             type: String,
             enum: PAYEDMETHOD,
             default: 'Por definir'
