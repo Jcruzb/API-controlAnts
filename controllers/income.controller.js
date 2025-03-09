@@ -4,12 +4,13 @@ const HttpStatus = require('http-status-codes');
 const createError = require('http-errors');
 
 module.exports.createIncome = (req, res, next) => {
+    console.log('entra en crear income')
     Income.create(req.body)
         .then(income => {
-            console.log(incomes)
+            console.log(income)
             return User.findByIdAndUpdate(
-                income.responsable, 
-                { $push: { incomes: income._id } }, 
+                income.responsable,
+                { $push: { incomes: income._id } },
                 { new: true }
             ).then(() => res.status(HttpStatus.StatusCodes.CREATED).json(income));
         })
@@ -21,6 +22,7 @@ module.exports.getIncomes = (req, res, next) => {
         .populate('responsable')
         .then(income => {
             res.status(HttpStatus.StatusCodes.OK).json(income);
+            console.log(res.status(HttpStatus.StatusCodes.OK).json(income))
         })
         .catch(err => {
             console.log(err)
@@ -61,7 +63,7 @@ module.exports.deleteIncome = (req, res, next) => {
                 return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
             }
             return User.findByIdAndUpdate(
-                income.responsable, 
+                income.responsable,
                 { $pull: { incomes: income._id } }
             ).then(() => res.status(HttpStatus.StatusCodes.OK).json(income));
         })
@@ -71,13 +73,13 @@ module.exports.deleteIncome = (req, res, next) => {
 
 
 module.exports.getIncomesByIds = (req, res, next) => {
-  const { ids } = req.query; // Se espera una cadena separada por comas
-  if (!ids) {
-    return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'No se proporcionaron IDs de ingresos.' });
-  }
-  const idsArray = ids.split(',');
+    const { ids } = req.query; // Se espera una cadena separada por comas
+    if (!ids) {
+        return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'No se proporcionaron IDs de ingresos.' });
+    }
+    const idsArray = ids.split(',');
 
-  Income.find({ _id: { $in: idsArray } })
-    .then(incomes => res.status(HttpStatus.StatusCodes.OK).json(incomes))
-    .catch(error => next(error));
+    Income.find({ _id: { $in: idsArray } })
+        .then(incomes => res.status(HttpStatus.StatusCodes.OK).json(incomes))
+        .catch(error => next(error));
 };
