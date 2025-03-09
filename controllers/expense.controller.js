@@ -79,3 +79,31 @@ module.exports.deleteExpense = (req, res, next) => {
         })
         .catch(() => next(deleteError));
 }
+
+module.exports.getExpensesByMonth = (req, res, next) => {
+    const { month, year } = req.query;
+    if (!month || !year) {
+      return res.status(400).json({ message: 'Se requieren mes y año para filtrar.' });
+    }
+  
+    const m = Number(month);
+    const y = Number(year);
+    // Crear fecha de inicio y fin para el mes solicitado
+    const startDate = new Date(y, m - 1, 1);
+    const endDate = new Date(y, m, 1);
+  
+    // Buscar gastos cuyo campo date esté dentro del rango y popular la categoría
+    Expense.find({
+      date: {
+        $gte: startDate,
+        $lt: endDate
+      }
+    })
+      .populate('category')
+      .then(expenses => {
+        res.status(200).json(expenses);
+      })
+      .catch(error => {
+        next(error);
+      });
+  };

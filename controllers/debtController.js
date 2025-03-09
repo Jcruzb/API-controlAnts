@@ -79,3 +79,15 @@ module.exports.deleteDebt = (req, res, next) => {
         .catch(() => next(createError(HttpStatus.StatusCodes.CONFLICT, 'Error al eliminar la deuda')));
 };
 
+module.exports.getDebtsByIds = (req, res, next) => {
+    const { ids } = req.query; // Se espera una cadena separada por comas
+    if (!ids) {
+      return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'No se proporcionaron IDs de deudas.' });
+    }
+    const idsArray = ids.split(',');
+  
+    Debt.find({ _id: { $in: idsArray } })
+      .then(debts => res.status(HttpStatus.StatusCodes.OK).json(debts))
+      .catch(error => next(error));
+  };
+

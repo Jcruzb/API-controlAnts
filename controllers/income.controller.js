@@ -6,17 +6,17 @@ const createError = require('http-errors');
 module.exports.createIncome = (req, res, next) => {
     Income.create(req.body)
         .then(income => {
+            console.log(incomes)
             return User.findByIdAndUpdate(
                 income.responsable, 
                 { $push: { incomes: income._id } }, 
                 { new: true }
             ).then(() => res.status(HttpStatus.StatusCodes.CREATED).json(income));
         })
-        .catch(next);
+        .catch(err => console.log(err));
 };
 
 module.exports.getIncomes = (req, res, next) => {
-    console.log('getIncomes')
     Income.find()
         .populate('responsable')
         .then(income => {
@@ -66,4 +66,18 @@ module.exports.deleteIncome = (req, res, next) => {
             ).then(() => res.status(HttpStatus.StatusCodes.OK).json(income));
         })
         .catch(() => next(createError(HttpStatus.StatusCodes.CONFLICT, 'Error al eliminar el ingreso')));
+};
+
+
+
+module.exports.getIncomesByIds = (req, res, next) => {
+  const { ids } = req.query; // Se espera una cadena separada por comas
+  if (!ids) {
+    return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'No se proporcionaron IDs de ingresos.' });
+  }
+  const idsArray = ids.split(',');
+
+  Income.find({ _id: { $in: idsArray } })
+    .then(incomes => res.status(HttpStatus.StatusCodes.OK).json(incomes))
+    .catch(error => next(error));
 };
