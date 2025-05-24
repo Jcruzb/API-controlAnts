@@ -10,27 +10,32 @@ const expenseSchema = new Schema({
         type: String,
         required: true
     },
-    amount: {
-        type: Number,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
     kind: {
         type: String,
-        enum: KIND,
+        enum: ['fijo', 'variable'],
         required: true
+    },
+    amount: {
+        type: Number
     },
     expenseGroup: {
         type: String,
-        enum: GROUP,
+        enum: ['familiar', 'personal'],
         required: true
+    },
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
+    },
+    description: {
+        type: String
     },
     isActive: {
         type: Boolean,
         default: true
+    },
+    inactivatedAt: {
+        type: Date
     },
     status: {
         planeado: {
@@ -42,30 +47,38 @@ const expenseSchema = new Schema({
             default: false
         }
     },
-    category: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category'
+    // Solo para variables planeados o realizados
+    date: {
+        type: Date
     },
-    description: {
-        type: String
+    // Solo para gastos fijos
+    startDate: {
+        type: Date
     },
-    plannedPayer: {  // Renombrado de planedPayer
+    paymentHistory: [{
+        amount: Number,
+        paidAt: Date,
+        payedWith: {
+            payedMethod: {
+                type: String,
+                enum: ['Efectivo', 'Tarjeta', 'Cuenta nominada', 'Tarjeta de alimentos', 'Por definir'],
+                default: 'Por definir'
+            },
+            description: String
+        },
+        realPayer: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    }],
+    // Referencias de usuario
+    plannedPayer: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
     realPayer: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    },
-    payedWith: {
-        payedMethod: {  // Corregido el typo
-            type: String,
-            enum: PAYEDMETHOD,
-            default: 'Por definir'
-        },
-        description: {
-            type: String
-        }        
     }
 }, {
     timestamps: true,

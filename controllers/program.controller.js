@@ -19,15 +19,30 @@ module.exports.getVirtualProgramByDate = (req, res, next) => {
         return next(createError(HttpStatus.StatusCodes.NOT_FOUND, 'Familia no encontrada'));
       }
 
-      console.log('Familia encontrada:', family.familyName);
-
       const userIds = family.members.map(m => m.user._id);
 
       return Promise.all([
         Expense.find({
-          planedPayer: { $in: userIds },
-          date: { $gte: startDate, $lte: endDate }
-        }).populate('category').populate('planedPayer realPayer'),
+          $or: [
+            {
+              kind: 'fijo',
+              startDate: { $lte: endDate },
+              $or: [
+                { isActive: true },
+                { inactivatedAt: { $gte: startDate } }
+              ]
+            },
+            {
+              kind: 'variable',
+              date: { $gte: startDate, $lte: endDate }
+            },
+            {
+              kind: 'variable',
+              status: { realizado: true },
+              date: { $gte: startDate, $lte: endDate }
+            }
+          ]
+        }).populate('category plannedPayer realPayer'),
         Debt.find({
           debtOwner: { $in: userIds },
           startDate: { $lte: endDate },
@@ -42,8 +57,6 @@ module.exports.getVirtualProgramByDate = (req, res, next) => {
           expenses,
           debts
         });
-
-        console.log('Programa virtual generado:', program);
 
         res.status(200).json(program);
       });

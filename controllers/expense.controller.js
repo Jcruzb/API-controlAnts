@@ -4,17 +4,50 @@ const HttpStatus = require('http-status-codes');
 const createError = require('http-errors');
 
 module.exports.createExpense = (req, res, next) => {
-
-    console.log('entra a createExpense')
+    console.log('entra a createExpense');
     if (!req.currentUser) {
         return res.status(HttpStatus.StatusCodes.UNAUTHORIZED).json({ message: "Usuario no autenticado" });
     }
 
     const userId = req.currentUser._id;
+    const {
+        name,
+        kind,
+        amount,
+        expenseGroup,
+        category,
+        description,
+        status,
+        date,
+        startDate,
+        plannedPayer,
+        realPayer
+    } = req.body;
 
-    console.log(req.body)
+    const expenseData = {
+        name,
+        kind,
+        amount,
+        expenseGroup,
+        category,
+        description,
+        status,
+        plannedPayer,
+        realPayer
+    };
 
-    Expense.create({ ...req.body, user: userId })
+    if (kind === 'fijo') {
+        expenseData.startDate = startDate || new Date(); // default today
+        expenseData.status = { planeado: true, realizado: false };
+    }
+
+    if (kind === 'variable') {
+        if (status?.planeado && date) {
+            expenseData.date = date;
+        }
+    }
+
+    Expense.create(expenseData)
         .then(expense => {
             return User.findByIdAndUpdate(userId, {
                 $push: { expenses: expense._id }
@@ -22,7 +55,10 @@ module.exports.createExpense = (req, res, next) => {
                 res.status(HttpStatus.StatusCodes.CREATED).json(expense);
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log('Error al crear el gasto:', err);
+            next(err);
+        });
 };
 
 module.exports.getExpenses = (req, res, next) => {
@@ -83,27 +119,40 @@ module.exports.deleteExpense = (req, res, next) => {
 module.exports.getExpensesByMonth = (req, res, next) => {
     const { month, year } = req.query;
     if (!month || !year) {
-      return res.status(400).json({ message: 'Se requieren mes y año para filtrar.' });
+        return res.status(400).json({ message: 'Se requieren mes y año para filtrar.' });
     }
-  
+
     const m = Number(month);
     const y = Number(year);
-    // Crear fecha de inicio y fin para el mes solicitado
     const startDate = new Date(y, m - 1, 1);
-    const endDate = new Date(y, m, 1);
-  
-    // Buscar gastos cuyo campo date esté dentro del rango y popular la categoría
+    const endDate = new Date(y, m, 0, 23, 59, 59);
+
     Expense.find({
-      date: {
-        $gte: startDate,
-        $lt: endDate
-      }
+        $or: [
+            {
+                kind: 'fijo',
+                startDate: { $lte: endDate },
+                $or: [
+                    { inactivatedAt: null },
+                    { inactivatedAt: { $gte: startDate } }
+                ]
+            },
+            {
+                kind: 'variable',
+                date: { $gte: startDate, $lte: endDate }
+            },
+            {
+                kind: 'variable',
+                status: { realizado: true },
+                date: { $gte: startDate, $lte: endDate }
+            }
+        ]
     })
-      .populate('category')
-      .then(expenses => {
-        res.status(200).json(expenses);
-      })
-      .catch(error => {
-        next(error);
-      });
-  };
+        .populate('category plannedPayer realPayer')
+        .then(expenses => {
+            res.status(200).json(expenses);
+        })
+        .catch(error => {
+            next(error);
+        });
+};
