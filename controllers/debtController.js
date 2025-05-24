@@ -5,7 +5,6 @@ const createError = require('http-errors');
 
 module.exports.createDebt = (req, res, next) => {
     const { debtOwner, payer } = req.body;
-
     Debt.create(req.body)
         .then(debt => {
             const ownerUpdate = User.findByIdAndUpdate(
@@ -13,6 +12,7 @@ module.exports.createDebt = (req, res, next) => {
                 { $push: { debts: debt._id } }, 
                 { new: true }
             );
+            
 
             
             const payerUpdate = User.findByIdAndUpdate(
@@ -25,7 +25,11 @@ module.exports.createDebt = (req, res, next) => {
             return Promise.all([ownerUpdate, payerUpdate])
                 .then(() => res.status(HttpStatus.StatusCodes.CREATED).json(debt));
         })
-        .catch(next);
+        .catch(err => {
+            console.log('Error al crear la deuda', err);
+            next(createError(HttpStatus.StatusCodes.CONFLICT, 'Error al crear la deuda'));
+        }
+    );
 };
 
 module.exports.getDebts = (req, res, next) => {
