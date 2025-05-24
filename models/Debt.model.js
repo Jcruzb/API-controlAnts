@@ -52,11 +52,13 @@ const debtSchema = new Schema({
     },
     debtOwner: { 
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
-    payer: {
+    payedUser: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 }, {
     timestamps: true,

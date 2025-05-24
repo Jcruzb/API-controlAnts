@@ -1,112 +1,66 @@
-const Program = require('../models/Program.model');
+const createError = require('http-errors');
+const HttpStatus = require('http-status-codes');
+const VirtualProgram = require('../models/Program.model');
+const Family = require('../models/Family.model');
 const Expense = require('../models/Expense.model');
 const Debt = require('../models/Debt.model');
-const HttpStatus = require('http-status-codes');
-const createError = require('http-errors');
 
-module.exports.createProgram = (req, res, next) => {
-    Program.create(req.body)
-        .then(program => {
-            res.status(HttpStatus.StatusCodes.CREATED).json(program);
-        })
-        .catch(next);
-}
+module.exports.getVirtualProgramByDate = (req, res, next) => {
+  console.log('entraaaaaaa');
+  const { month, year } = req.query;
+  const { familyId } = req.params;
 
-module.exports.getPrograms = (req, res, next) => {
-    const { familyId } = req.params;
+  console.log(`familyId: ${familyId}, month: ${month}, year: ${year}`);
+  console.log('Solicitando programa para mes:', month, 'año:', year);
 
-    Program.find({ family: familyId })
-        .populate('expenses')
-        .populate('debts')
-        .then(programs => {
-            if (!programs.length) {
-                return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'No programs found for this family' });
-            }
-            res.status(HttpStatus.StatusCodes.OK).json(programs);
-        })
-        .catch(next);
-};
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 0, 23, 59, 59);
 
-module.exports.getProgram = (req, res, next) => {
-    const { id } = req.params;
+  Family.findById(familyId)
+    .populate('members.user')
+    .then(family => {
+      if (!family) {
+        return next(createError(HttpStatus.StatusCodes.NOT_FOUND, 'Familia no encontrada'));
+      }
 
-    Program.findById(id)
-        .populate('expenses')
-        .populate('debts')
-        .then(program => {
-            if (!program) {
-                return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Program not found' });
-            }
-            res.status(HttpStatus.StatusCodes.OK).json(program);
-        })
-        .catch(next);
-}
+      console.log('Familia encontrada:', family.familyName);
 
-module.exports.editProgram = (req, res, next) => {
-    const { id } = req.params;
+      const userIds = family.members.map(m => m.user._id);
+      console.log(userIds);
 
-    Program.findByIdAndUpdate(id, req.body, { new: true })
-        .then(program => {
-            if (!program) {
-                return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Program not found' });
-            }
-            res.status(HttpStatus.StatusCodes.OK).json(program);
-        })
-        .catch(next);
-}
-
-module.exports.deleteProgram = (req, res, next) => {
-    const { id } = req.params;
-
-    Program.findByIdAndDelete(id)
-        .then(program => {
-            if (!program) {
-                return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Program not found' });
-            }
-            res.status(HttpStatus.StatusCodes.NO_CONTENT).json();
-        })
-        .catch(next);
-}
-
-module.exports.getProgramByDate = (req, res, next) => {
-    const { familyId, month, year } = req.body;
-
-    const startDate = new Date(year, month - 1, 1); // Inicio del mes
-    const endDate = new Date(year, month, 0, 23, 59, 59); // Fin del mes
-
-    console.log(`StartDate: ${startDate}`);
-    console.log(`EndDate: ${endDate}`);
-
-    Program.findOne({ family: familyId, month, year })
-        .populate('expenses')
-        .populate('debts')
-        .then(program => {
-            if (!program) {
-                console.log('Program no encontrado para los parámetros proporcionados');
-                return res
-                    .status(HttpStatus.StatusCodes.NOT_FOUND)
-                    .json({ message: 'Program not found' });
-            }
-
-            // Buscar gastos dentro del rango de fechas
-            return Expense.find({
-                family: familyId, // Usar directamente el familyId recibido
-                createdAt: { $gte: startDate, $lte: endDate }
-            }).then(expenses => {
-                console.log('Gastos encontrados:', expenses);
-
-                // Actualizar el programa con los gastos encontrados
-                program.expenses = expenses.map(expense => expense._id);
-                return program.save();
-            }).then(updatedProgram => {
-                console.log('Program actualizado:');
-                res.status(HttpStatus.StatusCodes.OK).json(updatedProgram);
-            });
-        })
-        .catch(err => {
-            console.log('Entrando a catch con error:');
-            console.error(err.stack);
-            next(err);
+      return Promise.all([
+        Expense.find({
+          planedPayer: { $in: userIds },
+          date: { $gte: startDate, $lte: endDate }
+        }).populate('category').populate('planedPayer realPayer'),
+        Debt.find({
+          debtOwner: { $in: userIds },
+          startDate: { $lte: endDate },
+          endDate: { $gte: startDate }
+        }).populate('debtOwner payedUser')
+      ]).then(([expenses, debts]) => {
+        console.log(expenses)
+        console.log(debts);
+        console.log('Total de gastos encontrados:', expenses.length);
+        console.log('Total de deudas encontradas:', debts.length);
+        console.log('Primer gasto:', expenses[0]);
+        console.log('Primer deuda:', debts[0]);
+        const program = new VirtualProgram({
+          family,
+          month: parseInt(month),
+          year: parseInt(year),
+          members: family.members.map(m => m.user),
+          expenses,
+          debts
         });
-};
 
+        console.log('Programa virtual generado:', program);
+
+        res.status(200).json(program);
+      });
+    })
+    .catch(err => {
+      console.error('Error al obtener el programa virtual:', err);
+      next(createError(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR, 'Error al obtener el programa virtual'));
+    });
+};

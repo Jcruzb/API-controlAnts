@@ -1,39 +1,40 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// models/VirtualProgram.js
 
-const programSchema = new Schema({
+class VirtualProgram {
+  constructor({ family, month, year, members, expenses, debts }) {
+    this.family = {
+      id: family._id,
+      name: family.familyName
+    };
+    this.month = month;
+    this.year = year;
+    this.members = members.map(user => ({
+      id: user._id,
+      name: user.name,
+      email: user.email
+    }));
+    this.expenses = expenses.map(expense => ({
+      id: expense._id,
+      amount: expense.amount,
+      date: expense.date,
+      kind: expense.kind,
+      expenseGroup: expense.expenseGroup,
+      category: expense.category?.name || 'Sin categoría',
+      planedPayer: expense.planedPayer?.name,
+      realPayer: expense.realPayer?.name,
+      description: expense.description
+    }));
+    this.debts = debts.map(debt => ({
+      id: debt._id,
+      name: debt.name,
+      amount: debt.amount,
+      startDate: debt.startDate,
+      quote: debt.quote,
+      numberOfQuotes: debt.numberOfQuotes,
+      user: debt.debtOwner?.name,
+      payedUser: debt.payedUser?.name
+    }));
+  }
+}
 
-    month: {
-        type: Number,
-        required: true
-    },
-    year: {
-        type: Number,
-        required: true
-    },
-    family: {
-        type: Schema.Types.ObjectId,
-        ref: 'Family',
-        required: true
-    },
-    expenses: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Expense'
-    }],
-    debts: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Debt'
-    }]
-}, {
-    timestamps: true,
-    toJSON: {
-        transform: function (doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-            delete ret.__v;
-            return ret;
-        }
-    }
-});
-
-module.exports = mongoose.model('Program', programSchema);
+module.exports = VirtualProgram;
