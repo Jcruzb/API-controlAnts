@@ -6,12 +6,8 @@ const Expense = require('../models/Expense.model');
 const Debt = require('../models/Debt.model');
 
 module.exports.getVirtualProgramByDate = (req, res, next) => {
-  console.log('entraaaaaaa');
   const { month, year } = req.query;
   const { familyId } = req.params;
-
-  console.log(`familyId: ${familyId}, month: ${month}, year: ${year}`);
-  console.log('Solicitando programa para mes:', month, 'año:', year);
 
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0, 23, 59, 59);
@@ -26,7 +22,6 @@ module.exports.getVirtualProgramByDate = (req, res, next) => {
       console.log('Familia encontrada:', family.familyName);
 
       const userIds = family.members.map(m => m.user._id);
-      console.log(userIds);
 
       return Promise.all([
         Expense.find({
@@ -39,12 +34,6 @@ module.exports.getVirtualProgramByDate = (req, res, next) => {
           endDate: { $gte: startDate }
         }).populate('debtOwner payedUser')
       ]).then(([expenses, debts]) => {
-        console.log(expenses)
-        console.log(debts);
-        console.log('Total de gastos encontrados:', expenses.length);
-        console.log('Total de deudas encontradas:', debts.length);
-        console.log('Primer gasto:', expenses[0]);
-        console.log('Primer deuda:', debts[0]);
         const program = new VirtualProgram({
           family,
           month: parseInt(month),
