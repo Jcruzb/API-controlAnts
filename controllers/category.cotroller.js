@@ -18,6 +18,19 @@ module.exports.getCategories = (req, res, next) => {
         .catch(next);
 }
 
+//get by id
+module.exports.getCategoryById = (req, res, next) => {
+    const { id } = req.params;
+    Category.findById(id)
+        .then(category => {
+            if (!category) {
+                return res.status(HttpStatus.StatusCodes.NOT_FOUND).send();
+            }
+            res.status(HttpStatus.StatusCodes.OK).json(category);
+        })
+        .catch(next);
+}
+
 module.exports.getcategoriesName = (req, res, next) => {
     //obtener sólo el nombre de las categorías
     Category.find()
